@@ -1,17 +1,41 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import "./index.css";
+// ✅ Modular import
+import { Amplify } from "aws-amplify";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+Amplify.configure({
+  Auth: {
+    Cognito: {
+      userPoolId: "us-east-2_qFqFIbjDz",
+      userPoolClientId: "6p72lr2g6tg5pv16cci9j7m5ov",
+      loginWith: {
+        oauth: {
+          domain: "us-east-2qfqfibjdz.auth.us-east-2.amazoncognito.com",
+          scopes: ["openid", "email", "phone"],
+          redirectSignIn: ["http://localhost:3000/"],
+          redirectSignOut: ["http://localhost:3000/"],
+          responseType: "code",
+        },
+      },
+    },
+  },
+});
+
+// Debug: Log the configuration
+console.log("Amplify configured with:", {
+  userPoolId: "us-east-2_qFqFIbjDz",
+  userPoolClientId: "6p72lr2g6tg5pv16cci9j7m5ov",
+  domain: "us-east-2qfqfibjdz.auth.us-east-2.amazoncognito.com"
+});
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
