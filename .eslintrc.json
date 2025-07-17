@@ -1,0 +1,17 @@
+{
+    "extends": ["react-app"],
+    "rules": {
+      "no-undef": "off",
+      "react/prop-types": "off"
+    },
+    "env": {
+      "browser": true,
+      "node": true,
+      "es6": true
+    },
+    "globals": {
+      "require": "readonly",
+      "process": "readonly",
+      "module": "readonly"
+    }
+  }

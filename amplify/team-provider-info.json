@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-elesite-dev-485b2-authRole",
+      "UnauthRoleArn": "arn:aws:iam::757825918925:role/amplify-elesite-dev-485b2-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::757825918925:role/amplify-elesite-dev-485b2-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-elesite-dev-485b2-deployment",
+      "UnauthRoleName": "amplify-elesite-dev-485b2-unauthRole",
+      "StackName": "amplify-elesite-dev-485b2",
+      "StackId": "arn:aws:cloudformation:us-east-2:757825918925:stack/amplify-elesite-dev-485b2/6a90aab0-5b5c-11f0-88c9-06c74e4d599b",
+      "AmplifyAppId": "d39m19enmagky4"
+    },
+    "categories": {
+      "api": {
+        "elesite": {}
+      }
+    }
+  }
+}

@@ -1,6 +1,79 @@
 import React from 'react';
+import { useState } from 'react';
+
+const boardMembers = [
+    {
+        name: 'Hibist',
+        image: 'hibist.png', // Replace with actual image path
+        title: "Hope College - Nursing",
+        quote: "I'm excited about this program because I know first-hand the stumbling blocks and barriers to college education faced by our community...",
+    },
+    {
+        name: 'Amenti',
+        image: 'amenti.png', // Replace with actual image path
+        title: "American University '20 - Health Promotion",
+        quote: "I love helping people in any way I can. I have a strong passion for holistic health and wellness. I aspire to become a Health Coach...",
+    },
+    {
+        name: 'Hibist',
+        image: 'hibist.png', // Replace with actual image path
+        title: "Hope College - Nursing",
+        quote: "I'm excited about this program because I know first-hand the stumbling blocks and barriers to college education faced by our community...",
+    },
+    {
+        name: 'Amenti',
+        image: 'amenti.png', // Replace with actual image path
+        title: "American University '20 - Health Promotion",
+        quote: "I love helping people in any way I can. I have a strong passion for holistic health and wellness. I aspire to become a Health Coach...",
+    },
+    
+    // Add 8 more placeholders
+];
+
+// eslint-disable-next-line no-unused-vars
+function MeetTheBoard() {
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const next = () => setCurrentIndex((currentIndex + 1) % boardMembers.length);
+    const prev = () => setCurrentIndex((currentIndex - 1 + boardMembers.length) % boardMembers.length);
+
+    const member = boardMembers[currentIndex];
+
+    return (
+        <section className="meet-the-board-section">
+            <h2>Meet the Board</h2>
+            <div className="board-slide">
+                <div className="board-left">
+                    <img src={member.image} alt={member.name} className="board-photo" />
+                    <div className="board-info">
+                        <h3>{member.name}</h3>
+                        <p className="board-title">{member.title}</p>
+                    </div>
+                </div>
+                <div className="board-right">
+                    <p className="board-quote">&quot;{member.quote}&quot;</p>
+                </div>
+            </div>
+
+            <div className="board-navigation">
+                <button className="nav-button" onClick={prev}>‹</button>
+                <div className="dots">
+                    {boardMembers.map((_, index) => (
+                        <span
+                            key={index}
+                            className={`dot ${index === currentIndex ? 'active' : ''}`}
+                            onClick={() => setCurrentIndex(index)}
+                        />
+                    ))}
+                </div>
+                <button className="nav-button" onClick={next}>›</button>
+            </div>
+        </section>
+    );
+}
 
 function About() {
+    
     return (
         <div className="about-page">
 
@@ -16,8 +89,8 @@ function About() {
                 <h2>Our Mission</h2>
                 <p>
                 Studies show that, on average, a high school
-counselor is responsible for over 400 students. Yes,
-that's right: a ratio of 482:1. We know this reality not
+counselor is responsible for over 400 students. Yes, that&apos;s
+ right: a ratio of 482:1. We know this reality not
 just because of papers we have read about, but
 because we have
 passed through public high schools in which students
@@ -60,6 +133,10 @@ all the stress of daily life.
                     Our program for high school seniors is the focus of many late summer/fall workshops. Mentors will meet with the seniors more often to create personalized schedules based on application and scholarship deadlines. Workshops will cover the college application process, financial aid, personal statements, and college tours. Upon graduation, we begin preparing our students for their transition to college with workshops on topics like imposter syndrome, time management, and budgeting.
                 </p>
             </section>
+
+            {/* <MeetTheBoard /> */}
+
+
         </div>
     );
 }

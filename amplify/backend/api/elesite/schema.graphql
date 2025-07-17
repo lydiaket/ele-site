@@ -1,0 +1,127 @@
+type AcademicYear @model @auth(rules: [{allow: public, provider: apiKey}]) {
+  id: ID!
+  yearLabel: String! # "2025-2026"
+  startDate: AWSDate!
+  endDate: AWSDate!
+  isActive: Boolean!
+  matches: [MentorMenteeMatch] @hasMany(indexName: "byAcademicYear", fields: ["id"])
+}
+
+type Mentor @model @auth(rules: [{allow: public, provider: apiKey}]) {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  email: String! @index(name: "byEmail")
+  phone: String
+  occupation: String
+  company: String
+  expertise: [String!]! # ["Technology", "Business", "Arts"]
+  availability: String # "Weekdays", "Weekends", "Flexible"
+  preferredCommunication: [CommunicationType!]!
+  maxMentees: Int! # Maximum number of mentees they can handle
+  status: MentorStatus!
+  bio: String
+  linkedinProfile: String
+  yearsOfExperience: Int
+  mentoringSince: AWSDate
+  matches: [MentorMenteeMatch] @hasMany(indexName: "byMentor", fields: ["id"])
+  communications: [Communication] @hasMany(indexName: "byMentor", fields: ["id"])
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Mentee @model @auth(rules: [{allow: public, provider: apiKey}]) {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  email: String! @index(name: "byEmail")
+  phone: String
+  gradeLevel: String! # "9", "10", "11", "12"
+  school: String!
+  interests: [String!]! # ["STEM", "Arts", "Business", "Sports"]
+  goals: String! # What they hope to achieve through mentoring
+  availability: String # "After school", "Weekends", "Flexible"
+  preferredCommunication: [CommunicationType!]!
+  parentEmail: String!
+  parentPhone: String!
+  status: MenteeStatus!
+  specialNeeds: String # Any accommodations needed
+  previousMentoring: Boolean!
+  enrollmentDate: AWSDate!
+  matches: [MentorMenteeMatch] @hasMany(indexName: "byMentee", fields: ["id"])
+  communications: [Communication] @hasMany(indexName: "byMentee", fields: ["id"])
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type MentorMenteeMatch @model @auth(rules: [{allow: public, provider: apiKey}]) {
+  id: ID!
+  mentorID: ID! @index(name: "byMentor")
+  menteeID: ID! @index(name: "byMentee")
+  academicYearID: ID! @index(name: "byAcademicYear")
+  mentor: Mentor @belongsTo(fields: ["mentorID"])
+  mentee: Mentee @belongsTo(fields: ["menteeID"])
+  academicYear: AcademicYear @belongsTo(fields: ["academicYearID"])
+  matchDate: AWSDate!
+  status: MatchStatus!
+  matchingCriteria: String # Why they were matched
+  goals: String # Goals for this mentoring relationship
+  meetingFrequency: String # "Weekly", "Bi-weekly", "Monthly"
+  lastContactDate: AWSDate
+  notes: String
+  communications: [Communication] @hasMany(indexName: "byMatch", fields: ["id"])
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Communication @model @auth(rules: [{allow: public, provider: apiKey}]) {
+  id: ID!
+  matchID: ID! @index(name: "byMatch")
+  mentorID: ID! @index(name: "byMentor")
+  menteeID: ID! @index(name: "byMentee")
+  match: MentorMenteeMatch @belongsTo(fields: ["matchID"])
+  mentor: Mentor @belongsTo(fields: ["mentorID"])
+  mentee: Mentee @belongsTo(fields: ["menteeID"])
+  type: CommunicationType!
+  subject: String!
+  content: String!
+  communicationDate: AWSDateTime!
+  initiatedBy: String! # "mentor" or "mentee" or "admin"
+  responseRequired: Boolean!
+  responseDate: AWSDateTime
+  tags: [String!] # ["check-in", "goal-setting", "problem-solving"]
+  attachments: [String!] # URLs to any attached files
+  isRead: Boolean!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+enum MentorStatus {
+  ACTIVE
+  INACTIVE
+  PENDING_APPROVAL
+  ON_HOLD
+}
+
+enum MenteeStatus {
+  ACTIVE
+  INACTIVE
+  PENDING_APPROVAL
+  WAITLISTED
+  GRADUATED
+}
+
+enum MatchStatus {
+  ACTIVE
+  COMPLETED
+  ON_HOLD
+  TERMINATED
+}
+
+enum CommunicationType {
+  EMAIL
+  PHONE
+  MEETING
+  WORKSHOP
+  TEXT
+}
