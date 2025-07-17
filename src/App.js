@@ -67,7 +67,7 @@ function App() {
         try {
             await signOut();
             setUser(null);
-            navigate("/login");
+            navigate("/");
         } catch (error) {
             console.error("Sign out error:", error);
         }
@@ -91,22 +91,7 @@ function App() {
                         <li><Link to="/support">Support Us</Link></li>
                     </ul>
                     <ul className="App-nav-right">
-                        {user ? (
-                            <>
-                                <li>
-                                    <Link to="/dashboard" className="dashboard-link">
-                                        Admin Dashboard
-                                    </Link>
-                                </li>
-                                <li>
-                                    <button className="signout-button" onClick={handleSignOut}>
-                                        Sign Out ({user.signInDetails?.loginId || user.username || "User"})
-                                    </button>
-                                </li>
-                            </>
-                        ) : (
-                            <li><Link to="/login">Login</Link></li>
-                        )}
+                        {/* Removed login/admin links from header */}
                     </ul>
                 </nav>
             </header>
@@ -140,10 +125,27 @@ function App() {
                             <a href="https://www.instagram.com/ele_mentors" target="_blank" rel="noopener noreferrer">
                                 @ele_mentors
                             </a>
+
+            
                         </p>
-                    </div>
-                    <div className="footer-section copyright">
                         <p>&copy; {new Date().getFullYear()} Egna Le Egna. All rights reserved.</p>
+                    </div>
+                    
+                    <div className="footer-section copyright">
+                        {/* <p>&copy; {new Date().getFullYear()} Egna Le Egna. All rights reserved.</p> */}
+                        {user ? (
+                            <p>
+                                <Link to="/dashboard" className="admin-copyright-link">Admin Dashboard</Link>
+                                {" | "}
+                                <button className="admin-copyright-button" onClick={handleSignOut}>
+                                    Sign Out
+                                </button>
+                            </p>
+                        ) : (
+                            <p>
+                                <Link to="/login" className="admin-copyright-link">Admin Login</Link>
+                            </p>
+                        )}
                     </div>
                 </div>
             </footer>

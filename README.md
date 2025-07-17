@@ -1,27 +1,44 @@
-# ELE Mentorship Platform
+# ELE Site
 
-A comprehensive full-stack mentorship management system designed to connect mentors and mentees in educational programs. Built with modern web technologies and cloud infrastructure for scalability and reliability.
+A comprehensive mentorship platform featuring a public-facing website for program information and applications, plus a secure administrative dashboard for managing mentor-mentee relationships. Built with React, Express.js, and AWS cloud services.
+
+## Project Overview
+
+The ELE site consists of two main components:
+
+1. **Public Website** - Information pages, program details, and application forms
+2. **Admin Dashboard** - Secure platform for managing mentors, mentees, and matches
 
 ## Features
 
-### Core Functionality
-- User Authentication - Secure login/logout via AWS Cognito
-- Mentor Management - Add, edit, and manage mentor profiles
-- Mentee Management - Add, edit, and manage mentee profiles  
-- Smart Matching System - Interface for creating mentor-mentee pairs
-- Academic Year Filtering - Filter data by specific academic years
-- Real-time Dashboard - Live statistics and data visualization
-- Match Status Tracking - Indicators for matched/unmatched status
+### Public Website
+- **Home Page** - Program overview and key information
+- **About Us** - Mission, vision, and team information
+- **Apply** - Application forms for mentors and mentees
+- **Resources** - Educational materials and guides
+- **Newsletter** - Program updates and announcements
+- **Responsive Design** - Mobile-friendly interface
 
-### Advanced Features
-- Multi-year Support - Mentors available across multiple academic years
-- Relationship Tracking - See all current mentor-mentee relationships
-- Contact Information - Phone numbers, emails, and school affiliations
-- Graduation Tracking - Track mentee graduation years
-- Database Integration - Real-time PostgreSQL database updates
+### Admin Dashboard
+- **Secure Authentication** - AWS Cognito OAuth integration
+- **Mentor Management** - Add, edit, and track mentor profiles
+- **Mentee Management** - Student profile management with graduation tracking
+- **Matching System** - Visual interface for creating mentor-mentee pairs
+- **Academic Year Filtering** - Multi-year program support
+- **Real-time Statistics** - Dashboard with live data and metrics
+- **Contact Management** - Phone, email, and institutional affiliations
 
 ## Architecture
 
+### Frontend Architecture
+```
+Public Website (React Router)
+├── Home (/), About (/about), Apply (/apply)
+├── Resources (/resources), Newsletter (/newsletter)
+└── Admin Login (/login) → Protected Dashboard (/dashboard)
+```
+
+### Full System Architecture
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   React Frontend │    │  Express.js API │    │  PostgreSQL DB  │
@@ -30,18 +47,37 @@ A comprehensive full-stack mentorship management system designed to connect ment
          │                       │
          ▼                       ▼
 ┌─────────────────┐    ┌─────────────────┐
-│  AWS Cognito    │    │    REST API     │
+│  AWS Cognito    │    │    Admin API    │
 │  Authentication │    │   Endpoints     │
 └─────────────────┘    └─────────────────┘
 ```
 
-## Quick Start
+## Tech Stack
+
+### Frontend
+- **React** - Main framework
+- **React Router** - Client-side routing for public pages and admin
+- **AWS Amplify** - Authentication SDK for admin dashboard
+- **CSS** - Custom styling for responsive design
+
+### Backend (Admin API)
+- **Express.js** - REST API server
+- **PostgreSQL** - Primary database (AWS RDS)
+- **AWS Cognito** - User authentication and authorization
+- **CORS** - Cross-origin resource sharing configuration
+
+### Infrastructure
+- **AWS RDS** - Managed PostgreSQL database
+- **AWS Cognito** - Identity and access management
+- **Node.js** - Runtime environment
+
+## Getting Started
 
 ### Prerequisites
 - Node.js (v14 or higher)
 - npm or yarn
-- PostgreSQL database (AWS RDS recommended)
-- AWS Cognito User Pool (for authentication)
+- PostgreSQL database (AWS RDS configured)
+- AWS Cognito User Pool (for admin access)
 
 ### 1. Clone Repository
 ```bash
@@ -49,7 +85,27 @@ git clone https://github.com/yourusername/ele-mentorship-platform.git
 cd ele-mentorship-platform
 ```
 
-### 2. Backend Setup
+### 2. Frontend Setup
+```bash
+# Install frontend dependencies
+npm install
+
+# Start development server (public website + admin)
+npm start
+```
+
+The website will be running at `http://localhost:3000`
+
+**Available Routes:**
+- `/` - Home page
+- `/about` - About us page
+- `/apply` - Application page
+- `/resources` - Resources page
+- `/newsletter` - Newsletter page
+- `/login` - Admin login (redirects to AWS Cognito)
+- `/dashboard` - Admin dashboard (requires authentication)
+
+### 3. Backend Setup (Admin API)
 ```bash
 cd ele-api
 npm install
@@ -57,7 +113,7 @@ npm install
 
 Create `.env` file in `ele-api/` directory:
 ```env
-DB_HOST=your-rds-endpoint.amazonaws.com
+DB_HOST=ele-mentorship-db.c5amyowwm996.us-east-2.rds.amazonaws.com
 DB_PORT=5432
 DB_NAME=your_database_name
 DB_USER=your_username
@@ -71,20 +127,11 @@ node server.js
 
 The API will be running at `http://localhost:3001`
 
-### 3. Frontend Setup
-```bash
-# From project root
-npm install
-npm start
-```
-
-The React app will be running at `http://localhost:3000`
-
 ### 4. Database Setup
 Run the following SQL commands in your PostgreSQL database:
 
 ```sql
--- Create academic years table
+-- Academic years table
 CREATE TABLE academic_years (
     id SERIAL PRIMARY KEY,
     year_label VARCHAR(20) NOT NULL UNIQUE,
@@ -94,7 +141,7 @@ CREATE TABLE academic_years (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create mentors table
+-- Mentors table
 CREATE TABLE mentors (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,
@@ -108,7 +155,7 @@ CREATE TABLE mentors (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create mentees table
+-- Mentees table
 CREATE TABLE mentees (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,
@@ -122,7 +169,7 @@ CREATE TABLE mentees (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create matches table
+-- Mentor-mentee matches table
 CREATE TABLE mentor_mentee_matches (
     id SERIAL PRIMARY KEY,
     mentor_id INTEGER REFERENCES mentors(id) ON DELETE CASCADE,
@@ -137,181 +184,225 @@ CREATE TABLE mentor_mentee_matches (
 );
 ```
 
-## API Endpoints
+## Project Structure
+
+```
+ele-mentorship-platform/
+├── public/
+│   ├── index.html              # Main HTML template
+│   ├── favicon.ico             # Site favicon
+│   └── ...
+├── src/
+│   ├── components/
+│   │   ├── Home.js             # Home page component
+│   │   ├── About.js            # About page component
+│   │   ├── Apply.js            # Application page component
+│   │   ├── Resources.js        # Resources page component
+│   │   ├── Newsletter.js       # Newsletter page component
+│   │   ├── Login.js            # Admin login component
+│   │   └── Dashboard.js        # Admin dashboard component
+│   ├── services/
+│   │   └── apiService.js       # API communication service
+│   ├── App.js                  # Main app with routing
+│   ├── App.css                 # Global styles
+│   └── index.js                # React entry point
+├── ele-api/                    # Backend API directory
+│   ├── server.js               # Express server
+│   ├── db.js                   # Database connection
+│   ├── .env                    # Environment variables
+│   └── package.json            # Backend dependencies
+├── package.json                # Frontend dependencies
+└── README.md                   # This file
+```
+
+## API Endpoints (Admin Only)
 
 ### Authentication
-- All endpoints require AWS Cognito authentication
+- All admin endpoints require AWS Cognito authentication
 - Frontend handles authentication automatically
 
-### Mentors
+### Admin Dashboard API
+- `GET /api/health` - System health check
 - `GET /api/mentors` - Get all mentors (with academic year filter)
 - `POST /api/mentors` - Create new mentor
 - `PUT /api/mentors/:id` - Update mentor
-- `GET /api/mentors?academic_year=2024-2025` - Filter by academic year
-
-### Mentees
 - `GET /api/mentees` - Get all mentees (with academic year filter)
 - `POST /api/mentees` - Create new mentee
 - `PUT /api/mentees/:id` - Update mentee
-
-### Matches
 - `GET /api/matches` - Get all active matches
 - `POST /api/matches` - Create new mentor-mentee match
 - `DELETE /api/matches/:id` - Remove match
-
-### System
-- `GET /api/health` - System health check
 - `GET /api/dashboard/stats` - Dashboard statistics
 
-## Data Management
+## Admin Dashboard Features
 
-### Academic Year Logic
-- Mentors with `academic_year = NULL` appear for all years
-- Mentees are tied to specific academic years
-- Matches are created within academic year contexts
+### User Management
+- Secure login via AWS Cognito OAuth
+- Automatic token refresh and session management
+- Protected routes requiring authentication
 
-### Example Data Structure
-```javascript
-// Mentor (available for all years)
-{
-  "id": 1,
-  "first_name": "John",
-  "last_name": "Smith",
-  "email": "john@university.edu",
-  "phone": "301-555-0123",
-  "school": "Georgetown University",
-  "academic_year": null  // Available for all years
-}
+### Mentor Management
+- Add mentor profiles with contact information
+- Edit existing mentor details
+- Track university/school affiliations
+- Multi-year availability (mentors can serve across academic years)
 
-// Mentee (specific year)
-{
-  "id": 1,
-  "first_name": "Jane",
-  "last_name": "Doe",
-  "email": "jane@student.edu",
-  "phone": "240-555-0456",
-  "academic_year": "2024-2025",
-  "graduation_year": 2025
-}
-```
+### Mentee Management
+- Student profile management
+- Graduation year tracking
+- Academic year assignments
+- Contact information management
+
+### Matching System
+- Visual interface for creating mentor-mentee pairs
+- Dropdown assignment system
+- Real-time match status updates
+- Match history and management
+
+### Academic Year Support
+- Filter data by specific academic years (2020-2021 through 2025-2026)
+- Multi-year program management
+- Year-specific statistics and reporting
+
+### Dashboard Analytics
+- Real-time statistics display
+- Total mentors, mentees, matches, and unmatched counts
+- System health monitoring
+- Database connection status
 
 ## Configuration
 
 ### Environment Variables
 ```env
-# Database Configuration
+# Backend API (.env in ele-api/)
 DB_HOST=your-database-host
 DB_PORT=5432
 DB_NAME=your_database_name
 DB_USER=your_username
 DB_PASSWORD=your_password
 
-# AWS Configuration (set in AWS Amplify config)
+# Frontend (set in AWS Amplify config)
 REACT_APP_AWS_REGION=us-east-2
 REACT_APP_USER_POOL_ID=us-east-2_xxxxxxxxx
 REACT_APP_USER_POOL_WEB_CLIENT_ID=xxxxxxxxxxxxxxxxx
 ```
 
 ### AWS Cognito Setup
-1. Create User Pool in AWS Cognito
-2. Configure OAuth settings with redirect URLs
+1. Create User Pool in AWS Cognito console
+2. Configure OAuth settings with redirect URLs:
+   - Sign-in redirect: `http://localhost:3000/` (dev) or `https://yourdomain.com/` (prod)
+   - Sign-out redirect: `http://localhost:3000/` (dev) or `https://yourdomain.com/` (prod)
 3. Update Amplify configuration in your React app
-
-## Dashboard Features
-
-### Main Interface
-- System Status - API and database health indicators
-- Statistics Cards - Total mentors, mentees, matches, and unmatched
-- Academic Year Filter - Dropdown to filter by specific years
-- Manage Matches Button - Toggle matching interface
-- Inline Forms - Add/edit mentors and mentees directly in their sections
-
-### Matching Interface
-- Two-column layout - Available mentors and unmatched mentees
-- Current matches displayed under each mentor
-- Dropdown assignment for assigning mentees to mentors
-- Remove matches functionality
-
-### Status Indicators
-- Border colors indicate match status
-- Status badges show matched/unmatched state
-- Relationship cards display mentor-mentee connections
 
 ## Deployment
 
-### Frontend (React)
-- Deploy to Vercel, Netlify, or AWS Amplify
-- Configure environment variables for production
-- Update API base URL for production backend
+### Frontend Deployment
+**Option 1: Vercel (Recommended)**
+```bash
+npm install -g vercel
+vercel --prod
+```
 
-### Backend (Express.js)
-- Deploy to Heroku, AWS EC2, or AWS Lambda
-- Ensure environment variables are set
-- Configure CORS for production frontend URL
+**Option 2: Netlify**
+```bash
+npm run build
+# Upload build/ folder to Netlify
+```
+
+**Option 3: AWS Amplify Hosting**
+```bash
+amplify add hosting
+amplify publish
+```
+
+### Backend Deployment
+**Option 1: Heroku**
+```bash
+cd ele-api
+git init
+heroku create your-app-name-api
+git add .
+git commit -m "Deploy API"
+git push heroku main
+```
+
+**Option 2: AWS EC2**
+- Launch EC2 instance
+- Install Node.js and PostgreSQL client
+- Configure security groups for database access
+- Deploy code and start server
 
 ### Database
-- AWS RDS PostgreSQL (recommended)
-- Configure security groups for backend access
-- Regular backups and monitoring
+- AWS RDS PostgreSQL (already configured)
+- Ensure security groups allow backend server access
+- Configure automated backups
+- Monitor performance and scaling
 
 ## Security Features
 
-- AWS Cognito Authentication - Enterprise-grade user management
-- Protected Routes - Dashboard only accessible after login
-- Input Validation - Server-side validation for all inputs
-- SQL Injection Prevention - Parameterized queries
-- Environment Variables - Sensitive data stored securely
-- CORS Configuration - Controlled cross-origin access
+### Public Website
+- No authentication required for public pages
+- Contact forms with input validation
+- Secure form submission handling
+
+### Admin Dashboard
+- AWS Cognito enterprise-grade authentication
+- OAuth 2.0 with PKCE for security
+- Automatic token refresh and management
+- Protected routes with authentication checks
+- SQL injection prevention with parameterized queries
+- CORS configuration for API security
+
+## Development Workflow
+
+### Running Locally
+```bash
+# Terminal 1: Frontend (public website + admin)
+npm start
+
+# Terminal 2: Backend API (admin functionality)
+cd ele-api
+node server.js
+```
+
+### Adding New Public Pages
+1. Create component in `src/components/`
+2. Add route in `App.js`
+3. Add navigation link if needed
+4. Style in `App.css`
+
+### Adding Admin Features
+1. Create API endpoint in `ele-api/server.js`
+2. Add frontend functionality in `Dashboard.js`
+3. Update database schema if needed
+4. Test authentication flow
 
 ## Testing
 
+### Frontend Testing
+- Navigate to public pages: `http://localhost:3000/`
+- Test admin login flow: `http://localhost:3000/login`
+- Verify protected routes work correctly
+- Test responsive design on mobile devices
+
 ### API Testing
 ```bash
-# Test health endpoint
+# Test public endpoints
 curl http://localhost:3001/api/health
 
-# Test mentors endpoint
-curl http://localhost:3001/api/mentors
-
-# Test with academic year filter
-curl "http://localhost:3001/api/mentors?academic_year=2024-2025"
-```
-
-### Frontend Testing
-- Navigate to `http://localhost:3000`
-- Test login/logout flow
-- Test CRUD operations for mentors/mentees
-- Test matching functionality
-- Test academic year filtering
-
-## Sample Data
-
-To get started quickly, you can add sample data:
-
-```sql
--- Sample mentors (available for all years)
-INSERT INTO mentors (first_name, last_name, email, phone, school, academic_year) VALUES
-('Sarah', 'Johnson', 'sarah.j@university.edu', '301-555-0123', 'Georgetown University', NULL),
-('Michael', 'Davis', 'michael.d@college.edu', '240-555-0456', 'University of Maryland', NULL);
-
--- Sample mentees (specific years)
-INSERT INTO mentees (first_name, last_name, email, phone, academic_year, graduation_year) VALUES
-('Emily', 'Smith', 'emily.s@student.edu', '301-555-0789', '2024-2025', 2025),
-('David', 'Wilson', 'david.w@student.edu', '240-555-0321', '2024-2025', 2026);
-
--- Sample academic years
-INSERT INTO academic_years (year_label, start_date, end_date, is_active) VALUES
-('2024-2025', '2024-08-01', '2025-07-31', true),
-('2025-2026', '2025-08-01', '2026-07-31', false);
+# Test admin endpoints (requires authentication)
+curl "http://localhost:3001/api/mentors"
 ```
 
 ## Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create a feature branch (`git checkout -b feature/new-feature`)
+3. Make changes to public website OR admin dashboard
+4. Test both public and admin functionality
+5. Commit changes (`git commit -m 'Add new feature'`)
+6. Push to branch (`git push origin feature/new-feature`)
+7. Open a Pull Request
 
 ## License
 
@@ -321,30 +412,43 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### Common Issues
 
-**"Failed to create match"**
-- Ensure `mentor_mentee_matches` table exists
-- Check that `academic_year` column is present
-- Verify mentor and mentee IDs exist
+**Public website not loading**
+- Check that React development server is running (`npm start`)
+- Verify all components are properly exported
+- Check browser console for JavaScript errors
 
-**"Database connection failed"**
-- Check `.env` file configuration
+**Admin login not working**
+- Verify AWS Cognito configuration
+- Check redirect URLs in Cognito console
+- Ensure Amplify configuration is correct
+
+**Database connection failed**
+- Check `.env` file in `ele-api/` directory
 - Verify RDS security groups allow connections
 - Confirm database credentials are correct
 
-**"Authentication errors"**
-- Verify AWS Cognito configuration
-- Check Amplify setup in React app
-- Ensure redirect URLs are configured
+**API endpoints not responding**
+- Ensure backend server is running (`node server.js`)
+- Check CORS configuration for frontend URL
+- Verify database schema matches API expectations
 
 ### Getting Help
 - Check the [Issues](https://github.com/yourusername/ele-mentorship-platform/issues) page
-- Create a new issue with detailed error information
-- Include relevant logs and configuration details
+- Create a new issue with detailed information
+- Include relevant logs and error messages
+- Specify whether issue is with public website or admin dashboard
 
-## Tech Stack
+## Roadmap
 
-- **Frontend:** React, AWS Amplify Auth, React Router
-- **Backend:** Express.js, Node.js
-- **Database:** PostgreSQL (AWS RDS)
-- **Authentication:** AWS Cognito
-- **API:** RESTful endpoints with JSON responses
+### Public Website Enhancements
+- Online application form submission
+- Program testimonials and success stories
+- Event calendar integration
+- Newsletter signup functionality
+
+### Admin Dashboard Enhancements
+- Communication tracking between mentor-mentee pairs
+- Automated matching algorithms
+- Email notification system
+- Advanced reporting and analytics
+- Bulk data import/export functionality
