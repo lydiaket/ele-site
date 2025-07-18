@@ -3,20 +3,9 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
-
-// Import Amplify
 import { Amplify } from "aws-amplify";
 
-// 💣 NUCLEAR OPTION: Completely bypass any auto-configuration
-console.log("🚨 NUCLEAR AMPLIFY CONFIG - Bypassing all auto-config");
-
-// Force clear any existing configuration multiple times
-Amplify.configure({});
-Amplify.configure({});
-Amplify.configure({});
-
-// Our configuration
-const authConfig = {
+const authOnlyConfig = {
   Auth: {
     Cognito: {
       userPoolId: "us-east-2_qFqFIbjDz",
@@ -26,14 +15,14 @@ const authConfig = {
           domain: "us-east-2qfqfibjdz.auth.us-east-2.amazoncognito.com",
           scopes: ["openid", "email", "phone"],
           redirectSignIn: [
+            "http://localhost:3000/dashboard",
             "https://elementors.org/dashboard",
-            "https://www.elementors.org/dashboard",
-            "http://localhost:3000/dashboard"
+            "https://www.elementors.org/dashboard"
           ],
           redirectSignOut: [
+            "http://localhost:3000/",
             "https://elementors.org/",
-            "https://www.elementors.org/", 
-            "http://localhost:3000/"
+            "https://www.elementors.org/"
           ],
           responseType: "code",
         },
@@ -41,25 +30,18 @@ const authConfig = {
     },
   },
 };
+console.log("🔧 Configuring Amplify with auth only...");
+console.log("🔧 Auth config:", authOnlyConfig);
 
-console.log("🚨 NUCLEAR: redirectSignIn array:", authConfig.Auth.Cognito.loginWith.oauth.redirectSignIn);
-console.log("🚨 NUCLEAR: Array length:", authConfig.Auth.Cognito.loginWith.oauth.redirectSignIn.length);
+Amplify.configure(authOnlyConfig);
 
-// Apply configuration aggressively
-Amplify.configure(authConfig);
-
-// Verify immediately
+// Verify configuration was applied
 setTimeout(() => {
   const config = Amplify.getConfig();
-  console.log("🚨 NUCLEAR RESULT:", config.Auth?.Cognito?.loginWith?.oauth);
-  console.log("🚨 NUCLEAR redirectSignIn:", config.Auth?.Cognito?.loginWith?.oauth?.redirectSignIn);
-}, 50);
-
-// Verify again after a longer delay
-setTimeout(() => {
-  const config = Amplify.getConfig();
-  console.log("🚨 NUCLEAR FINAL CHECK:", config.Auth?.Cognito?.loginWith?.oauth?.redirectSignIn);
-}, 500);
+  console.log("Final Amplify config:", config);
+  console.log("Auth specifically:", config.Auth);
+  console.log("OAuth specifically:", config.Auth?.Cognito?.loginWith?.oauth);
+}, 100);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
