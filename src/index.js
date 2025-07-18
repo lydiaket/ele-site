@@ -4,9 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 import { Amplify } from "aws-amplify";
-// import awsExports from "./aws-exports"; // Temporarily commented out
 
-// Configure ONLY auth first to test
 const authOnlyConfig = {
   Auth: {
     Cognito: {
@@ -16,15 +14,22 @@ const authOnlyConfig = {
         oauth: {
           domain: "us-east-2qfqfibjdz.auth.us-east-2.amazoncognito.com",
           scopes: ["openid", "email", "phone"],
-          redirectSignIn: ["http://localhost:3000/"],
-          redirectSignOut: ["http://localhost:3000/"],
+          redirectSignIn: [
+            "http://localhost:3000/dashboard",
+            "https://elementors.org/dashboard",
+            "https://www.elementors.org/dashboard"
+          ],
+          redirectSignOut: [
+            "http://localhost:3000/",
+            "https://elementors.org/",
+            "https://www.elementors.org/"
+          ],
           responseType: "code",
         },
       },
     },
   },
 };
-
 console.log("🔧 Configuring Amplify with auth only...");
 console.log("🔧 Auth config:", authOnlyConfig);
 
