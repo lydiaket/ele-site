@@ -38,9 +38,9 @@ Amplify.configure(authOnlyConfig);
 // Verify configuration was applied
 setTimeout(() => {
   const config = Amplify.getConfig();
-  console.log("✅ Final Amplify config:", config);
-  console.log("✅ Auth specifically:", config.Auth);
-  console.log("✅ OAuth specifically:", config.Auth?.Cognito?.loginWith?.oauth);
+  console.log("Final Amplify config:", config);
+  console.log("Auth specifically:", config.Auth);
+  console.log("OAuth specifically:", config.Auth?.Cognito?.loginWith?.oauth);
 }, 100);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

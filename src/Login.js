@@ -66,18 +66,18 @@ const Login = () => {
       
       // Check if OAuth is properly configured
       if (!config.Auth?.Cognito?.loginWith?.oauth) {
-        console.error("❌ OAuth not configured in Amplify");
+        console.error("OAuth not configured in Amplify");
         return;
       }
       
-      console.log("✅ OAuth config found:", config.Auth.Cognito.loginWith.oauth);
+      console.log("OAuth config found:", config.Auth.Cognito.loginWith.oauth);
       console.log("Attempting to sign in with redirect...");
       
       await signInWithRedirect();
       console.log("signInWithRedirect called successfully");
       
     } catch (error) {
-      console.error("❌ Sign in error:", error);
+      console.error("Sign in error:", error);
       console.error("Error details:", error.name, error.message);
     }
   };
