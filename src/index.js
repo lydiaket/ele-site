@@ -5,6 +5,10 @@ import App from "./App";
 import "./index.css";
 import { Amplify } from "aws-amplify";
 
+// FORCE CLEAR EVERYTHING
+console.log("🚨 FORCING AMPLIFY CLEAR");
+Amplify.configure({});
+
 const authOnlyConfig = {
   Auth: {
     Cognito: {
@@ -30,10 +34,20 @@ const authOnlyConfig = {
     },
   },
 };
-console.log("🔧 Configuring Amplify with auth only...");
-console.log("🔧 Auth config:", authOnlyConfig);
+
+console.log("🔧 Auth config BEFORE applying:", authOnlyConfig.Auth.Cognito.loginWith.oauth);
+console.log("🔧 redirectSignIn array:", authOnlyConfig.Auth.Cognito.loginWith.oauth.redirectSignIn);
+console.log("🔧 Array length:", authOnlyConfig.Auth.Cognito.loginWith.oauth.redirectSignIn.length);
 
 Amplify.configure(authOnlyConfig);
+
+
+console.log("🔧 Applied auth config!");
+
+// Check immediately
+const immediateConfig = Amplify.getConfig();
+console.log("🔧 IMMEDIATE check:", immediateConfig.Auth?.Cognito?.loginWith?.oauth);
+
 
 // Verify configuration was applied
 setTimeout(() => {
