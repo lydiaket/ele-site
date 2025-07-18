@@ -19,6 +19,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 
+
+console.log("🚨 APP LEVEL CONFIG");
+
 // Private route wrapper using AWS Amplify
 const PrivateRoute = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = React.useState(null);
