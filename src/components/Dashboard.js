@@ -5,10 +5,6 @@ import apiService from '../services/apiService';
 import UserManagement from './UserManagement';
 
 const Dashboard = () => {
-
-  <section className="dashboard-section">
-    <UserManagement />
-  </section>
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -988,6 +984,9 @@ const Dashboard = () => {
           </div>
         </>
       )}
+      <section className="dashboard-section">
+        <UserManagement />
+      </section>
     </div>
   );
 };
