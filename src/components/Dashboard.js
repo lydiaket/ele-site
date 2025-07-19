@@ -2,8 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCurrentUser, signOut } from "aws-amplify/auth";
 import apiService from '../services/apiService';
+import UserManagement from './UserManagement';
 
 const Dashboard = () => {
+
+  <section className="dashboard-section">
+    <UserManagement />
+  </section>
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -412,7 +417,7 @@ const Dashboard = () => {
             marginLeft: "auto"
           }}
         >
-          {showMatchingInterface ? "Hide Matching" : "🔗 Manage Matches"}
+          {showMatchingInterface ? "Hide Matching" : "Manage Matches"}
         </button>
       </div>
 
@@ -423,7 +428,7 @@ const Dashboard = () => {
         </div>
       ) : (
         <>
-          {/* System Status */}
+          {/* System Status
           <div style={{ 
             marginBottom: "20px", 
             padding: "15px", 
@@ -435,7 +440,7 @@ const Dashboard = () => {
             <p><strong>API Status:</strong> {apiData.health?.status || "Unknown"}</p>
             <p><strong>Database:</strong> {apiData.health?.database || "Unknown"}</p>
             <p><strong>Last Updated:</strong> {apiData.health?.timestamp ? new Date(apiData.health.timestamp).toLocaleString() : "Unknown"}</p>
-          </div>
+          </div> */}
 
           {/* Dashboard Stats */}
           <div style={{ 

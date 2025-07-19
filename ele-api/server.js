@@ -1,9 +1,10 @@
 /* eslint-disable */
 // server.js - Updated with real database connection
-require('dotenv').config(); // Add this line at the top
+require('dotenv').config(); 
 const express = require('express');
 const cors = require('cors');
-const pool = require('./db'); // Add this line
+const pool = require('./db'); 
+const cognitoAdminService = require('./services/cognitoAdminService');
 
 const app = express();
 const port = 3001;
@@ -132,8 +133,7 @@ app.get('/api/dashboard/stats', async (req, res) => {
     res.json({
       totalMentors,
       totalMentees,
-      totalMatches: 0, // We'll add this when you create matches
-      unMatchedMentees: totalMentees, // For now, assume all are unmatched
+      unMatchedMentees: totalMentees, 
       academicYear: academic_year || 'All Years'
     });
   } catch (error) {
@@ -362,6 +362,153 @@ app.delete('/api/matches/:id', async (req, res) => {
   } catch (error) {
     console.error('Error removing match:', error);
     res.status(500).json({ error: 'Failed to remove match' });
+  }
+});
+
+
+
+// Route to create a new user
+app.post('/api/admin/users', async (req, res) => {
+  try {
+    console.log('Admin creating new user...');
+    
+    // Get the email from the request
+    const { email, name, role } = req.body;
+    
+    // Basic validation
+    if (!email || !email.includes('@')) {
+      return res.status(400).json({
+        success: false,
+        error: 'Please provide a valid email address'
+      });
+    }
+
+    console.log(`Creating user with email: ${email}`);
+    
+    // Use our service to create the user
+    const result = await cognitoAdminService.createUser(email);
+    
+    if (result.success) {
+      // User created successfully
+      res.status(201).json({
+        success: true,
+        message: result.message,
+        temporaryPassword: result.temporaryPassword
+      });
+    } else {
+      // Something went wrong
+      res.status(400).json({
+        success: false,
+        error: result.error
+      });
+    }
+    
+  } catch (error) {
+    console.error('Server error creating user:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Server error - please try again'
+    });
+  }
+});
+
+// Route to get all users
+app.get('/api/admin/users', async (req, res) => {
+  try {
+    console.log('Admin requesting user list...');
+    
+    // Use our service to get the user list
+    const result = await cognitoAdminService.listUsers();
+    
+    if (result.success) {
+      res.json({
+        success: true,
+        users: result.users
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        error: result.error
+      });
+    }
+    
+  } catch (error) {
+    console.error('Server error listing users:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Server error - please try again'
+    });
+  }
+});
+
+// Route to enable or disable a user
+app.patch('/api/admin/users/:username', async (req, res) => {
+  try {
+    const { username } = req.params; // Get username from URL
+    const { action } = req.body;     // Get action from request body
+    
+    console.log(`Admin ${action}ing user: ${username}`);
+    
+    let result;
+    if (action === 'enable') {
+      result = await cognitoAdminService.enableUser(username);
+    } else if (action === 'disable') {
+      result = await cognitoAdminService.disableUser(username);
+    } else {
+      return res.status(400).json({
+        success: false,
+        error: 'Action must be either "enable" or "disable"'
+      });
+    }
+    
+    if (result.success) {
+      res.json({
+        success: true,
+        message: result.message
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        error: result.error
+      });
+    }
+    
+  } catch (error) {
+    console.error('Server error updating user:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Server error - please try again'
+    });
+  }
+});
+
+// Route to delete a user
+app.delete('/api/admin/users/:username', async (req, res) => {
+  try {
+    const { username } = req.params; // Get username from URL
+    
+    console.log(`Admin deleting user: ${username}`);
+    
+    const result = await cognitoAdminService.deleteUser(username);
+    
+    if (result.success) {
+      res.json({
+        success: true,
+        message: result.message
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        error: result.error
+      });
+    }
+    
+  } catch (error) {
+    console.error('Server error deleting user:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Server error - please try again'
+    });
   }
 });
 
