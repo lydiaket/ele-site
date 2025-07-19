@@ -1,6 +1,5 @@
 // src/components/UserManagement.js
 import React, { useState, useEffect } from 'react';
-import './UserManagement.css';
 
 const UserManagement = () => {
   // State for user list
