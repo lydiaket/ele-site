@@ -1,16 +1,20 @@
 {
   "name": "ele-api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["mentorship", "api", "express", "cognito"],
+  "author": "ELE Mentorship Platform",
   "license": "ISC",
-  "description": "",
+  "description": "Backend API for ELE Mentorship Platform with AWS Cognito integration",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "dependencies": {
     "aws-sdk": "^2.1692.0",
     "cors": "^2.8.5",
