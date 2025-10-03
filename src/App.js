@@ -131,22 +131,21 @@ function App() {
                         <p>&copy; {new Date().getFullYear()} Egna Le Egna. All rights reserved.</p>
                     </div>
                     
-                    <div className="footer-section copyright">
-                        {/* <p>&copy; {new Date().getFullYear()} Egna Le Egna. All rights reserved.</p> */}
-                        {user ? (
-                            <p>
-                                <Link to="/dashboard" className="admin-copyright-link">Admin Dashboard</Link>
-                                {" | "}
-                                <button className="admin-copyright-button" onClick={handleSignOut}>
-                                    Sign Out
-                                </button>
-                            </p>
-                        ) : (
-                            <p>
-                                <Link to="/login" className="admin-copyright-link">Admin Login</Link>
-                            </p>
-                        )}
-                    </div>
+                 //   <div className="footer-section copyright
+                 //       {user ? (
+                   //         <p>
+                     //           <Link to="/dashboard" className="admin-copyright-link">Admin Dashboard</Link>
+                       //         {" | "}
+                         //       <button className="admin-copyright-button" onClick={handleSignOut}>
+                           //         Sign Out
+                   //             </button>
+                    //        </p>
+                    //    ) : (
+                      //      <p>
+                        //        <Link to="/login" className="admin-copyright-link">Admin Login</Link>
+                         //   </p>
+                       // )}
+                  //  </div>
                 </div>
             </footer>
             
