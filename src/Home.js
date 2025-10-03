@@ -83,7 +83,6 @@ function Home() {
                     </div>
                 </div>
 
-                {/* Additional testimonial cards here, all with proper escaping */}
             </section>
         </div>
     );
