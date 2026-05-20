@@ -36,7 +36,7 @@ function Mentors() {
                     While most of our recruitment takes place in the Spring, we welcome applications at any time. If you’re interested in becoming a mentor, please fill out our application form and contact us via email.
                 </p>
                 <div className="apply-button-container">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfsqUdG2KguedIUIgHhnA8WQUBmUDj0ZdF3-VrePlUF6r26uA/viewform" target="_blank" rel="noopener noreferrer" className="apply-button">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeGGiXBdDaINHeTGFf2kzYaUQl4w4RbqCttfVrGumSImfibVQ/viewform" target="_blank" rel="noopener noreferrer" className="apply-button">
                     Click Here to Apply
                 </a>
             </div>
