@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Link, Routes, Route, Navigate } from "react-router-dom";
+import React from "react";
+import { Link, Routes, Route } from "react-router-dom";
 import Home from "./Home";
 import About from "./About";
 import Parents from "./Parents";
@@ -7,45 +7,10 @@ import Mentors from "./Mentors";
 import Mentees from "./Mentees";
 import Support from "./Support";
 import Calendar from "./Calendar";
-import Login from "./Login";
-import Dashboard from "./components/Dashboard";
-import DatabaseTest from './components/DatabaseTest';
-import GraphQLTest from './components/GraphQLTest';
-import ApiTest from './components/ApiTest';
-import { getCurrentUser } from "aws-amplify/auth";
-import PropTypes from "prop-types";
 import "./App.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
-
-// Private route wrapper using AWS Amplify
-const PrivateRoute = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = React.useState(null);
-
-    useEffect(() => {
-        checkAuth();
-    }, []);
-
-    const checkAuth = async () => {
-        try {
-            await getCurrentUser();
-            setIsAuthenticated(true);
-        } catch (error) {
-            setIsAuthenticated(false);
-        }
-    };
-
-    if (isAuthenticated === null) {
-        return <div>Loading...</div>;
-    }
-
-    return isAuthenticated ? children : <Navigate to="/login" />;
-};
-
-PrivateRoute.propTypes = {
-    children: PropTypes.node.isRequired,
-};
 
 function App() {
     return (
@@ -67,9 +32,7 @@ function App() {
                         <li><Link to="/support">Support Us</Link></li>
                     </ul>
 
-                    <ul className="App-nav-right">
-                        {/* Removed login/admin links from header */}
-                    </ul>
+                    <ul className="App-nav-right"></ul>
                 </nav>
             </header>
 
@@ -82,18 +45,6 @@ function App() {
                     <Route path="/mentees" element={<Mentees />} />
                     <Route path="/calendar" element={<Calendar />} />
                     <Route path="/support" element={<Support />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route
-                        path="/dashboard"
-                        element={
-                            <PrivateRoute>
-                                <Dashboard />
-                            </PrivateRoute>
-                        }
-                    />
-                    <Route path="/db-test" element={<DatabaseTest />} />
-                    <Route path="/graphql-test" element={<GraphQLTest />} />
-                    <Route path="/api-test" element={<ApiTest />} />
                 </Routes>
             </main>
 
