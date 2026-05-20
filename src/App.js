@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link, Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./Home";
 import About from "./About";
 import Parents from "./Parents";
@@ -12,7 +12,7 @@ import Dashboard from "./components/Dashboard";
 import DatabaseTest from './components/DatabaseTest';
 import GraphQLTest from './components/GraphQLTest';
 import ApiTest from './components/ApiTest';
-import { getCurrentUser, signOut } from "aws-amplify/auth";
+import { getCurrentUser } from "aws-amplify/auth";
 import PropTypes from "prop-types";
 import "./App.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -48,31 +48,6 @@ PrivateRoute.propTypes = {
 };
 
 function App() {
-    const [user, setUser] = useState(null);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const currentUser = await getCurrentUser();
-                setUser(currentUser);
-            } catch {
-                setUser(null);
-            }
-        };
-        fetchUser();
-    }, []);
-
-    const handleSignOut = async () => {
-        try {
-            await signOut();
-            setUser(null);
-            navigate("/");
-        } catch (error) {
-            console.error("Sign out error:", error);
-        }
-    };
-
     return (
         <div className="App">
             <header className="App-header">
