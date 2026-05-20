@@ -8,7 +8,7 @@ import Mentees from "./Mentees";
 import Support from "./Support";
 import Calendar from "./Calendar";
 import Login from "./Login";
-import Dashboard from "./components/Dashboard"; // Board members dashboard
+import Dashboard from "./components/Dashboard";
 import DatabaseTest from './components/DatabaseTest';
 import GraphQLTest from './components/GraphQLTest';
 import ApiTest from './components/ApiTest';
@@ -82,6 +82,7 @@ function App() {
                             <img src="logo.png" alt="Logo" className="logo" />
                         </Link>
                     </div>
+
                     <ul className="App-nav-center">
                         <li><Link to="/">Home</Link></li>
                         <li><Link to="/about">About Us</Link></li>
@@ -90,6 +91,7 @@ function App() {
                         <li><Link to="/mentors">Become a Mentor</Link></li>
                         <li><Link to="/support">Support Us</Link></li>
                     </ul>
+
                     <ul className="App-nav-right">
                         {/* Removed login/admin links from header */}
                     </ul>
@@ -106,7 +108,14 @@ function App() {
                     <Route path="/calendar" element={<Calendar />} />
                     <Route path="/support" element={<Support />} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+                    <Route
+                        path="/dashboard"
+                        element={
+                            <PrivateRoute>
+                                <Dashboard />
+                            </PrivateRoute>
+                        }
+                    />
                     <Route path="/db-test" element={<DatabaseTest />} />
                     <Route path="/graphql-test" element={<GraphQLTest />} />
                     <Route path="/api-test" element={<ApiTest />} />
@@ -118,37 +127,28 @@ function App() {
                     <div className="footer-section contact-info">
                         <p>
                             <FontAwesomeIcon icon={faEnvelope} />{" "}
-                            <a href="mailto:Egnaleegnamentors@gmail.com">Egnaleegnamentors@gmail.com</a>
+                            <a href="mailto:Egnaleegnamentors@gmail.com">
+                                Egnaleegnamentors@gmail.com
+                            </a>
                         </p>
+
                         <p>
                             <FontAwesomeIcon icon={faInstagram} />{" "}
-                            <a href="https://www.instagram.com/ele_mentors" target="_blank" rel="noopener noreferrer">
+                            <a
+                                href="https://www.instagram.com/ele_mentors"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
                                 @ele_mentors
                             </a>
-
-            
                         </p>
-                        <p>&copy; {new Date().getFullYear()} Egna Le Egna. All rights reserved.</p>
+
+                        <p>
+                            &copy; {new Date().getFullYear()} Egna Le Egna. All rights reserved.
+                        </p>
                     </div>
-                    
-                 //   <div className="footer-section copyright
-                 //       {user ? (
-                   //         <p>
-                     //           <Link to="/dashboard" className="admin-copyright-link">Admin Dashboard</Link>
-                       //         {" | "}
-                         //       <button className="admin-copyright-button" onClick={handleSignOut}>
-                           //         Sign Out
-                   //             </button>
-                    //        </p>
-                    //    ) : (
-                      //      <p>
-                        //        <Link to="/login" className="admin-copyright-link">Admin Login</Link>
-                         //   </p>
-                       // )}
-                  //  </div>
                 </div>
             </footer>
-            
         </div>
     );
 }
