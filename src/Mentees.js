@@ -32,7 +32,7 @@ function Mentees() {
                     This application is designed to help us get to know you better so we can provide the best possible support.
                 </p>
                 <div className="apply-button-container">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeE52I7o3py-d3zgVExDnzwRQP_BcGTHFLyLdKvw1qozHWg2w/viewform" target="_blank" rel="noopener noreferrer" className="apply-button">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfFm0QzD0l_ptlL-53tovP3plklRKa_Hc18ncLPl84XcOqoPA/viewform" target="_blank" rel="noopener noreferrer" className="apply-button">
                     Click Here to Apply
                 </a>
             </div>
