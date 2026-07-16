@@ -871,7 +871,6 @@ body {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -1424,4 +1423,13 @@ body {
       margin-top: 10px;
       justify-content: center;
   }
+}
+.footer-admin-link {
+  margin-top: 20px;
+  font-size: 0.8rem;
+}
+
+
+.footer-admin-link a:hover {
+  color: white;
 }
