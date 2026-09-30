@@ -22,8 +22,13 @@ function Support() {
                 <p>
                     Please consider donating to our GoFundMe campaign to help us cover the registration and administrative costs necessary to become a recognized non-profit organization. Every dollar counts and brings us one step closer to our goal.
                 </p>
-                <div className="apply-button-container">
-                    <a href="https://www.gofundme.com/f/registering-ele-mentors-as-a-nonprofit?cp_src=d target="_blank" rel="noopener noreferrer" className="apply-button">
+               <div className="apply-button-container">
+                    <a 
+                        href="https://www.gofundme.com/f/registering-ele-mentors-as-a-nonprofit?cp_src=d"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="apply-button"
+                    >
                         Donate to Our GoFundMe
                     </a>
                 </div>
