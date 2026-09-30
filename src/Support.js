@@ -14,7 +14,7 @@ function Support() {
             <section className="support-gofundme">
                 <h2>Help Us Become a Non-Profit</h2>
                 <p>
-                    Over the past three years, we’ve had the privilege of helping over 120 Ethiopian and Eritrean high school students across the USA. We’ve assisted them in gaining admission to highly selective colleges, earning numerous awards, and securing scholarships. Now, we are taking the next step in our journey by working to officially register Egna Le Egna as a 503(c) non-profit organization.
+                    Over the past three years, we’ve had the privilege of helping over 200 Ethiopian and Eritrean high school students across the USA. We’ve assisted them in gaining admission to highly selective colleges, earning numerous awards, and securing scholarships. Now, we are taking the next step in our journey by working to officially register Egna Le Egna as a 503(c) non-profit organization.
                 </p>
                 <p>
                     Your support can play a pivotal role in helping us continue and expand our efforts. By contributing to our cause, you are directly empowering first-generation high school students in our communities. <strong>Together, we can help these students overcome challenges, achieve their dreams, and build brighter futures.</strong>
